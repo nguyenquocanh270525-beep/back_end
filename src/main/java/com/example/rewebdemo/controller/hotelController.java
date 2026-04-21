@@ -42,10 +42,7 @@ public class hotelController {
         }
         hotel.setHotelName(request.getHotelName());
         hotel.setStatus(request.isStatus());
-
         return hotel;
-
-
     }
     private Hotel findHotelById(String hotelId){
         for (Hotel hotel : hotels){
