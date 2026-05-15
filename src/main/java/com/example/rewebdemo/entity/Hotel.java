@@ -7,5 +7,5 @@ public class Hotel {
     private String hotelId;
     private String hotelName;
     private boolean status = true;
-
+    private Integer rate;
 }
