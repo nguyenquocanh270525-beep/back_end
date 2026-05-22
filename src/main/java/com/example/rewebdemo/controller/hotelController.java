@@ -4,6 +4,8 @@ import com.example.rewebdemo.dto.CreateHotelRequest;
 import com.example.rewebdemo.dto.ResponseDto;
 import com.example.rewebdemo.dto.UpdateHotelRequest;
 import com.example.rewebdemo.entity.Hotel;
+import com.example.rewebdemo.service.HotelService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,72 +16,39 @@ import java.util.List;
 @RequestMapping("/api/v1/hotels")
 public class hotelController {
     public static List<Hotel> hotels = new ArrayList<Hotel>();
+    @Autowired
+    HotelService hotelService;
+
 
     @PostMapping("/")
     public Hotel creareHotel(@RequestBody CreateHotelRequest request) {
-            Hotel hotel = new Hotel();
-            hotel.setHotelId(request.getHotelId());
-            hotel.setHotelName(request.getHotelName());
-            hotel.setRate(request.getRate());
-            hotels.add(hotel);
-            return hotel;
+            return hotelService.createHotel(request);
     }
 
-    @GetMapping("/")
-    public List<Hotel> getHotels(@RequestParam(required = false) Integer rate){
-        if(rate != null){
-            List<Hotel> result = new LinkedList<>();
-            for(Hotel hotel : hotels ){
-                if(hotel.getRate() == rate){
-                    result.add(hotel);
-                }
-            }
-
-            return result;
-        }
-        return hotels;
-    }
-
-    @GetMapping("/{hotelId}")
-    public Hotel getHotel(@PathVariable String hotelId){
-        return findHotelById(hotelId);
-    }
-
-    @PutMapping("/{hotelId}")
-    public Hotel updateHotel(@PathVariable String hotelId,
-                             @RequestBody UpdateHotelRequest request){
-        Hotel hotel = findHotelById(hotelId);
-        if(hotel == null){
-            return null;
-        }
-        hotel.setHotelName(request.getHotelName());
-        hotel.setStatus(request.isStatus());
-        return hotel;
-    }
-
-    @DeleteMapping("/{hotelId}")
-    public ResponseDto disableHotel(@PathVariable String hotelId){
-        for(int i = 0; i<hotels.size(); i++){
-            if(hotels.get(i).getHotelId().equals(hotelId)){
-                hotels.get(i).setStatus(false);
-                return new ResponseDto(true, "successful");
-            }
-
-        }
-        return new ResponseDto(false, "not found");
-
+    @GetMapping("/hotels")
+    public List<Hotel> getHotels(){
+        return hotelService.getAll();
     }
 
 
-    private Hotel findHotelById(String hotelId){
-        for (Hotel hotel : hotels){
-            if(hotel.getHotelId().equals(hotelId)){
-                return hotel;
-            }
 
-        }
-        return null;
+    @GetMapping("/hotels/{hotelId}")
+    public Hotel getHotel(@PathVariable Long hotelId){
+        return hotelService.getHotelById(hotelId);
     }
+
+    @PutMapping("/hotels/{hotelId}")
+    public Hotel updateHotel(@PathVariable Long hotelId,
+                             @RequestBody UpdateHotelRequest request) {
+        return hotelService.updateHotel(hotelId,request);
+    }
+    @DeleteMapping("/hotels/{hotelId}")
+    public Hotel deleteHotel(@PathVariable Long hotelId){
+        return hotelService.disableHotel(hotelId);
+    }
+
+
+
 
 
 
