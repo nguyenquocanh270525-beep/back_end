@@ -3,6 +3,8 @@ package com.example.rewebdemo.controller;
 import com.example.rewebdemo.dto.CreateHotelRequest;
 import com.example.rewebdemo.dto.UpdateHotelRequest;
 import com.example.rewebdemo.entity.Hotel;
+import com.example.rewebdemo.service.HotelService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,47 +14,42 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class hotelController {
     public static List<Hotel> hotels = new ArrayList<Hotel>();
+    @Autowired
+    HotelService hotelService;
+
 
     @PostMapping("/hotels")
     public Hotel creareHotel(@RequestBody CreateHotelRequest request) {
-            Hotel hotel = new Hotel();
 
-            hotel.setHotelId(request.getHotelId());
-            hotel.setHotelName(request.getHotelName());
-            hotels.add(hotel);
-            return hotel;
+            return hotelService.createHotel(request);
     }
 
     @GetMapping("/hotels")
     public List<Hotel> getHotels(){
-        return hotels;
+        return hotelService.getAll();
     }
 
+
+
     @GetMapping("/hotels/{hotelId}")
-    public Hotel getHotel(@PathVariable String hotelId){
-        return findHotelById(hotelId);
+    public Hotel getHotel(@PathVariable Long hotelId){
+        return hotelService.getHotelById(hotelId);
     }
 
     @PutMapping("/hotels/{hotelId}")
-    public Hotel updateHotel(@PathVariable String hotelId,
-                             @RequestBody UpdateHotelRequest request){
-        Hotel hotel = findHotelById(hotelId);
-        if(hotel == null){
-            return null;
-        }
-        hotel.setHotelName(request.getHotelName());
-        hotel.setStatus(request.isStatus());
-        return hotel;
-    }
-    private Hotel findHotelById(String hotelId){
-        for (Hotel hotel : hotels){
-            if(hotel.getHotelId().equals(hotelId)){
-                return hotel;
-            }
+    public Hotel updateHotel(@PathVariable Long hotelId,
+                             @RequestBody UpdateHotelRequest request) {
+        return hotelService.updateHotel(hotelId,request);
 
-        }
-        return null;
+
     }
+    @DeleteMapping("/hotels/{hotelId}")
+    public Hotel deleteHotel(@PathVariable Long hotelId){
+        return hotelService.disableHotel(hotelId);
+    }
+
+
+
 
 
 
