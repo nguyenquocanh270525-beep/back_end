@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/hotels/")
+@RequestMapping("/api/v1/hotels")
 public class hotelController {
     public static List<Hotel> hotels = new ArrayList<Hotel>();
     @Autowired
@@ -30,12 +30,12 @@ public class hotelController {
 
 
 
-    @GetMapping("{hotelId}")
+    @GetMapping("/{hotelId}")
     public Hotel getHotel(@PathVariable Long hotelId){
         return hotelService.getHotelById(hotelId);
     }
 
-    @PutMapping("{hotelId}")
+    @PutMapping("/{hotelId}")
     public Hotel updateHotel(@PathVariable Long hotelId,
                              @RequestBody UpdateHotelRequest request) {
         return hotelService.updateHotel(hotelId,request);

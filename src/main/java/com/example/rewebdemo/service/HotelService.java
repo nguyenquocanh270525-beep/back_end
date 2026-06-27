@@ -34,6 +34,7 @@ public class HotelService {
 
     public Hotel updateHotel(Long hotelId, UpdateHotelRequest request){
         Hotel hotel = new Hotel();
+
         hotel = hotelRepository.findByHotelId(hotelId);
         if(hotel == null) return null;
 

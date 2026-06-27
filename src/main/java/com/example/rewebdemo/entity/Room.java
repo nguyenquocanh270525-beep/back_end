@@ -6,26 +6,32 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "guests")
+@Table(name = "rooms")
 @Data
-
-public class Guest {
+public class Room {
 
     @Id
-    @GeneratedValue(strategy =GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "room_number")
+    private String roomNumber;
+
+    @Column(name = "room_type")
+    private String roomType;
+
+    @Column(name = "price")
+    private Double price;
+
     @Column
-    private  Long id;
+    private Integer floor;
 
-    @Column(name = "guest_name")
-    private String guestName;
+    @Column
+    private String status;
 
-    @Column(name = "guest_phone")
-    private String guestPhone;
+    @Column
+    private Integer capacity;
 
-    @Column(name = "guest_email")
-    private String guestEmail;
-    @Column(name = "gender")
-    private String gender;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -45,5 +51,3 @@ public class Guest {
     }
 
 }
-
-
