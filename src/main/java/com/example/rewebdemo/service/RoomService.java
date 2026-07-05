@@ -4,6 +4,7 @@ import com.example.rewebdemo.dto.CreateRoomRequest;
 import com.example.rewebdemo.dto.UpdateRoomRequest;
 import com.example.rewebdemo.dto.UpdateRoomStatusRequest;
 import com.example.rewebdemo.entity.Room;
+import com.example.rewebdemo.enums.RoomStatus;
 import com.example.rewebdemo.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class RoomService {
         room.setPrice(request.getPrice());
         room.setFloor(request.getFloor());
         room.setCapacity(request.getCapacity());
-        room.setStatus("AVAILABLE");
+        room.setStatus(RoomStatus.AVAILABLE);
         room = roomRepository.save(room);
 
         return room;
@@ -60,7 +61,7 @@ public class RoomService {
     public Room updateRoomStatus(Long id, UpdateRoomStatusRequest request){
         Room room = roomRepository.findById(id).orElseThrow(() -> new RuntimeException("Not Found"));
 
-        room.setStatus(request.getStatus());
+        room.setStatus(RoomStatus.valueOf(request.getStatus()));
         room = roomRepository.save(room);
 
         return room;

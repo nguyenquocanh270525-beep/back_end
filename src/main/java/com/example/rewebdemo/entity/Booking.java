@@ -1,5 +1,6 @@
 package com.example.rewebdemo.entity;
 
+import com.example.rewebdemo.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,8 +25,10 @@ public class Booking {
     @Column(name = "total_price")
     private Double totalPrice;
 
+
+    @Enumerated(EnumType.STRING)
     @Column
-    private String status;
+    private BookingStatus status;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

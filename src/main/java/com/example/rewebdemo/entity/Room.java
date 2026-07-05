@@ -1,5 +1,6 @@
 package com.example.rewebdemo.entity;
 
+import com.example.rewebdemo.enums.RoomStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -26,8 +27,9 @@ public class Room {
     @Column
     private Integer floor;
 
+    @Enumerated(EnumType.STRING)
     @Column
-    private String status;
+    private RoomStatus status;
 
     @Column
     private Integer capacity;
